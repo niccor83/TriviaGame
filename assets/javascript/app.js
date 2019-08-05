@@ -1,5 +1,5 @@
 //Variables
-var timerCount = 30;
+var timerCount = 10;
 var intervalId;
 var correctAnsCount = 0;
 var incorrectAnsCount = 0;
@@ -65,17 +65,36 @@ var quizQuestions = [
 
 //Game functions
 function questionSetup() {
-    var question = quizQuestions[questionCount].question;
-    var ansChoices = quizQuestions[questionCount].answers;
-    $("#question").html(question);
-    for (var i = 0; i < ansChoices.length; i++) {
-        var a = $("<h4>");
-        a.addClass("choice");
-        a.attr("data-name", quizQuestions[questionCount].answers[i]);
-        a.text(quizQuestions[questionCount].answers[i]);
-        $("#answers").append(a);
+    var numberOfQuestions = quizQuestions.length;
+    if (questionCount < numberOfQuestions) {
+        var question = quizQuestions[questionCount].question;
+        var ansChoices = quizQuestions[questionCount].answers;
+        $("#question").html(question);
+        for (var i = 0; i < ansChoices.length; i++) {
+            var a = $("<h4>");
+            a.addClass("choice");
+            a.attr("data-name", quizQuestions[questionCount].answers[i]);
+            a.text(quizQuestions[questionCount].answers[i]);
+            $("#answers").append(a);
+        }
+    }
+    else{
+        gameOver();
     }
 };
+
+function gameOver(){
+    clearInterval(intervalId);
+    $("#question").html("<h1>Game over!</h1>")
+    $("#answers").html("<h3 id='answerTotals'>Correct Answers: " + correctAnsCount + "</h3>");
+    $("#answers").append("<h3 id='answerTotals'>Incorrect Answers: " + incorrectAnsCount + "</h3>");
+    $("#answers").append("<h3 id='answerTotals'>Unanswered: " + unansweredCount + "</h3>");
+    $("#startGame").html("<h3>Start Over?</h3>").show();
+    $(document).on("click", "#startGame", function () {
+        startTimer();
+        questionSetup();
+    });
+    };
 
 function startTimer(){
     clearInterval(intervalId);
@@ -90,7 +109,7 @@ function count() {
     }
 }
 function timerReset(){
-    timerCount = 30;
+    timerCount = 10;
     startTimer();
 }
 function timeUp(){
@@ -100,7 +119,6 @@ function timeUp(){
     setTimeout( function () {
         nextQuestion();
     }, 2000);
-    console.log(questionCount);
 }; 
      
 
@@ -117,14 +135,13 @@ function nextQuestion(){
 //start game button
 $(document).on("click", "#startGame", function(){
     $("#startGame").hide();
-    // $("#timer").html("<h2>Timer: " + timerCount + "</h2>")
     startTimer();    
     questionSetup();
 });
 
 //click answers
 $(document).on("click", ".choice", function () {
-    clearInterval(intervalId);
+    clearInterval(intervalId); //this stops the timer
     var selectedAns = $(this).attr("data-name");
     var correctAnswer = quizQuestions[questionCount].correct;
     //check to see if selectedAns is equal to correctAnswer

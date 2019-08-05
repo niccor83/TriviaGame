@@ -40,3 +40,7 @@ body    {
     text-align: center;
     background-color: rgba(72, 240, 240, 1);
 }
+
+#answers    {
+    order: solid 2px firebrick;
+}
