@@ -18,11 +18,25 @@ body    {
 
 #startGame  {
     border: solid 3px firebrick;
-
 }
-
+#startGame:hover  {
+    border: solid 3px firebrick;
+    background-color: rgba(72, 240, 240, 1);
+}
 
 .img-fluid  {
     max-width: 100%;
     height: auto;
+}
+
+.choice {
+    border: solid 2px firebrick;
+    text-align: center;
+    
+}
+
+.choice:hover {
+    border: solid 2px firebrick;
+    text-align: center;
+    background-color: rgba(72, 240, 240, 1);
 }

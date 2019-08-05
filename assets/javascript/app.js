@@ -1,9 +1,9 @@
 //Variables
-var timerCount = 5;
+var timerCount = 30;
 var intervalId;
-var correctAns = 0;
-var incorrectAns = 0;
-var unanswered = 0;
+var correctAnsCount = 0;
+var incorrectAnsCount = 0;
+var unansweredCount = 0;
 var questionCount = 0;
 
 var quizQuestions = [
@@ -13,74 +13,72 @@ var quizQuestions = [
         correct: "Ignacio"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What is Nacho's wrestling partners name? ",
+        answers: ["Steven", "Juan Pablo", "Miguel", "Jose"],
+        correct: "Steven"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What is Steven's wrestling name? ",
+        answers: ["Ramses", "El Pony", "Silencio", "Esqueleto"],
+        correct: "Esqueleto"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What does Nacho eat to try and gain magical powers? ",
+        answers: ["Tigers Blood", "Buffalo Chips", "Eagle Eggs", "Turtle Soup"],
+        correct: "Eagle Eggs"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: 'According to Nacho, which wrestler is "The Best"? ',
+        answers: ["Satan's Cavemen", "El Pony", "Ramses", "Silencio"],
+        correct: "Ramses"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What actor plays Nacho? ",
+        answers: ["Mickey Rourke", "Jack Black", "Hector Jimenez", "Jonah Hill"],
+        correct: "Jack Black"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What did Steven steal from Nacho in the alley? ",
+        answers: ["Chips", "Money", "His Cart", "Corn"],
+        correct: "Chips"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "Nacho has feelings for whom? ",
+        answers: ["Candida", "Alejandra", "Jasmin", "Encarnacion"],
+        correct: "Encarnacion"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What does Nacho slip under sister Encarnacion's door? ",
+        answers: ["Toast", "Love Note", "Picture", "Book"],
+        correct: "Toast"
     },
     {
-        question: "What is Nacho's real name? ",
-        answers: ["Steven", "Ignacio", "Chancho", "Jose"],
-        correct: "Ignacio"
+        question: "What is Nacho's duty at the parish? ",
+        answers: ["Pastor", "Cook", "Gardener", "Maintenance"],
+        correct: "Cook"
     },
 ]
 
-function questionSetup(){
-  var question = quizQuestions[questionCount].question;
-  var ansChoices = quizQuestions[questionCount].answers;
-  $("#question").text(question); 
-  for(var i = 0; i < ansChoices.length; i++){
-      console.log(quizQuestions[questionCount].answers[i]);
-      $("#answers").append("<h4>" + quizQuestions[questionCount].answers[i] + "</h4>");
-  }
-    $(document).on("click", "#ansCheck", function () {
-        if ($userGuess === quizQuestions[questionCount].correct) {
-            console.log("correct answer");
-        }
-        else {
-            console.log("incorrect Answer");
-        }
-    }) 
-};
+
+
 
 
 //Game functions
+function questionSetup() {
+    var question = quizQuestions[questionCount].question;
+    var ansChoices = quizQuestions[questionCount].answers;
+    $("#question").html(question);
+    for (var i = 0; i < ansChoices.length; i++) {
+        var a = $("<h4>");
+        a.addClass("choice");
+        a.attr("data-name", quizQuestions[questionCount].answers[i]);
+        a.text(quizQuestions[questionCount].answers[i]);
+        $("#answers").append(a);
+    }
+};
+
 function startTimer(){
-        // clearInterval(intervalId);
+    clearInterval(intervalId);
     $("#timer").html("<h2>Timer: " + timerCount + "</h2>")
         intervalId = setInterval(count, 1000);      
 }
@@ -91,36 +89,57 @@ function count() {
         timeUp();
     }
 }
-
 function timerReset(){
-    timerCount = 5;
+    timerCount = 30;
     startTimer();
 }
 function timeUp(){
     clearInterval(intervalId);
     $("#timer").html("<h3>Times Up!</h3>");
-    unanswered++;
+    unansweredCount++;
     setTimeout( function () {
-        nextQuestion()
-    }, 3000);
-
+        nextQuestion();
+    }, 2000);
+    console.log(questionCount);
 }; 
      
 
 function nextQuestion(){
-    timerReset();
     questionCount++;
+    $("#answers").html("<h4></h4>");
+    timerReset();
     questionSetup();
      
 }
 
-function questions(){
-    
-};
 
+
+//start game button
 $(document).on("click", "#startGame", function(){
     $("#startGame").hide();
     // $("#timer").html("<h2>Timer: " + timerCount + "</h2>")
     startTimer();    
     questionSetup();
+});
+
+//click answers
+$(document).on("click", ".choice", function () {
+    clearInterval(intervalId);
+    var selectedAns = $(this).attr("data-name");
+    var correctAnswer = quizQuestions[questionCount].correct;
+    //check to see if selectedAns is equal to correctAnswer
+    if(selectedAns === correctAnswer){
+        $("#answers").html("<h4>You got it! The correct answer is: " + correctAnswer + "</div>");
+        correctAnsCount++;
+        setTimeout(function () {
+            nextQuestion();
+        }, 2000);
+    }
+    else{
+        $("#answers").html("<h4>That is incorrect!</h4>");
+        incorrectAnsCount++;
+        setTimeout(function () {
+            nextQuestion();
+        }, 2000);
+    }
 });
