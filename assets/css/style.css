@@ -1,0 +1,28 @@
+header  {
+    image: url("../images/nachoLibre.png");
+}
+
+body    {
+    background-image: url("../images/wrestlingRing.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.container   {
+    background-color: rgb(124,206,206, 0.75);
+    height: 1000px;
+
+
+ 
+}
+
+#startGame  {
+    border: solid 3px firebrick;
+
+}
+
+
+.img-fluid  {
+    max-width: 100%;
+    height: auto;
+}
