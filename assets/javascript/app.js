@@ -1,11 +1,12 @@
 //Variables
-var timerCount = 10;
+var timerCount = 20;
 var intervalId;
 var correctAnsCount = 0;
 var incorrectAnsCount = 0;
 var unansweredCount = 0;
 var questionCount = 0;
 
+//array of objects that holds questions, answers and the correct answer.
 var quizQuestions = [
     {
         question: "What is Nacho's real name? ",
@@ -60,13 +61,13 @@ var quizQuestions = [
 ]
 
 
-
-
-
 //Game functions
+
+//gets question & answers from quizQuestions array and displays them
 function questionSetup() {
     var numberOfQuestions = quizQuestions.length;
-    if (questionCount < numberOfQuestions) {
+    //checks to see if all questions have been displayed, if not displays questions, if so it runs gameOver function
+    if (questionCount < numberOfQuestions) { 
         var question = quizQuestions[questionCount].question;
         var ansChoices = quizQuestions[questionCount].answers;
         $("#question").html(question);
@@ -83,18 +84,31 @@ function questionSetup() {
     }
 };
 
+//gameOver stops timer, displays "Game Over" and number of correct, incorrect & unanswered questions
 function gameOver(){
     clearInterval(intervalId);
-    $("#question").html("<h1>Game over!</h1>")
+    $("#question").html("<h1>Game over!</h1>");
     $("#answers").html("<h3 id='answerTotals'>Correct Answers: " + correctAnsCount + "</h3>");
     $("#answers").append("<h3 id='answerTotals'>Incorrect Answers: " + incorrectAnsCount + "</h3>");
     $("#answers").append("<h3 id='answerTotals'>Unanswered: " + unansweredCount + "</h3>");
     $("#startGame").html("<h3>Start Over?</h3>").show();
     $(document).on("click", "#startGame", function () {
+        $("#startGame").hide();
+        $("#question").html("<h3></h3>")
+        $("#answers").html("<div></div>");
+        counterReset();
         startTimer();
         questionSetup();
     });
+
     };
+
+function counterReset(){
+    correctAnsCount = 0;
+    incorrectAnsCount = 0;
+    unansweredCount = 0;
+    questionCount = 0;
+}
 
 function startTimer(){
     clearInterval(intervalId);
@@ -109,7 +123,7 @@ function count() {
     }
 }
 function timerReset(){
-    timerCount = 10;
+    timerCount = 20;
     startTimer();
 }
 function timeUp(){

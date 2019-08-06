@@ -32,6 +32,7 @@ body    {
 .choice {
     border: solid 2px firebrick;
     text-align: center;
+    margin: 20px;
     
 }
 
