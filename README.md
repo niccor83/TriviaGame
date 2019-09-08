@@ -5,7 +5,7 @@ What the project does: This is a trivia game that was built with HTML, CSS, Boot
 
 Why the project is useful:This project is helpful in furthing your understanding of HTML, CSS, Javascript/jQuery, and specifically things  like setInterval, setTimeout, manipulating html with jQuery, building logic with javascript.
 
-How users can get started with the project: review the "What the project does" section and then try and recreate the game.
+*__Link to app__  [Trivia_Game] https://niccor83.github.io/TriviaGame/
 
 Where users can get help with your project: niccor83@gmail.com
 
